@@ -1,11 +1,11 @@
 import { notFound } from "next/navigation";
 import style from "./page.module.css";
 
-export default async function Page({
-  params,
-}: {
-  params: Promise<{ id: string | string[] }>;
-}) {
+export function generateStaticParams() {
+  return [{ id: "1" }, { id: "2" }, { id: "3" }];
+}
+
+export default async function Page({ params }: { params: Promise<{ id: string | string[] }> }) {
   const { id } = await params;
 
   const response = await fetch(`${process.env.NEXT_PUBLIC_API_SERVER_URL}/book/${id}`);
@@ -23,10 +23,7 @@ export default async function Page({
 
   return (
     <div className={style.container}>
-      <div
-        className={style.cover_img_container}
-        style={{ backgroundImage: `url('${coverImgUrl}')` }}
-      >
+      <div className={style.cover_img_container} style={{ backgroundImage: `url('${coverImgUrl}')` }}>
         <img src={coverImgUrl} />
       </div>
       <div className={style.title}>{title}</div>
